@@ -31,3 +31,6 @@ jobs:
 
       - name: Verify single version declaration
         run: node --test test/core/version.test.mjs
+
+      - name: Verify review-cost telemetry
+        run: npm run loop:cost
