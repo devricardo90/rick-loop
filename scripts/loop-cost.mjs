@@ -41,12 +41,21 @@ function main() {
 
   const spend = total;
   const remainder = cap - spend;
+  const allUnknown = unknown === entries.length;
 
   console.log(`Review cost report (OD-3 cap: $${cap})`);
   console.log(`  Entries: ${entries.length}`);
-  console.log(`  Cost recorded: $${spend}`);
+  if (allUnknown) {
+    console.log(`  Actual spend: UNKNOWN (all entries carry cost: UNKNOWN per OD-3 rule 3)`);
+    console.log(`  Cost recorded: $0 (no numeric cost entries exist)`);
+  } else {
+    console.log(`  Cost recorded: $${spend}`);
+  }
   console.log(`  Unknown cost: ${unknown} entries`);
   console.log(`  Remainder: $${remainder}`);
+  if (allUnknown) {
+    console.log(`  WARNING: No actual spending data available. UNKNOWN costs are NOT zero.`);
+  }
 }
 
 main();

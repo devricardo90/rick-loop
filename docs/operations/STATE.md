@@ -7,12 +7,13 @@
 | Genesis commit | `3521730` ("chore: genesis commit for the Rick Loop v2 repository") |
 | Pushed to | `main` directly, no gate, no protection |
 | Branch | `main` (protected) |
-| Current HEAD | `f76cc75` (first gate-verified merge) |
+| Current HEAD | `cd5733c` (M1 closure: GBE-001 closed, bootstrap exception merge recorded) |
 
 ## Gate-verified merges
 
 **1.** Commit `f76cc75` — PR #1 ("docs(foundation): Rick Loop v2 technical foundation plan")
-merged through protected `main` with CI passing. Narrow bootstrap exception applied.
+merged through protected `main` with CI passing under narrow bootstrap exception.
+Review returned FINDINGS (not clean). Full merge gate (`evaluateMergeAllowed`) not yet ported (M2).
 See `docs/operations/GBE-001-CLOSURE.md`.
 
 ## GBE-001
@@ -22,7 +23,7 @@ See `docs/operations/GBE-001-CLOSURE.md`.
 2. CI workflow active — MET
 3. Golden vectors enforced in CI — MET
 4. Written statement created — MET
-5. First gate-verified merge (`f76cc75`) — MET
+5. First merge through protected branch with CI passing (`f76cc75`) — bootstrap exception — via condition 5
 
 ## Current milestone
 
@@ -40,7 +41,7 @@ v2 schema. See `docs/protocol/VERSION-IDENTITY.md`.
 ## Review cost telemetry
 
 - OD-3 cap: $40 (read from `docs/governance/OWNER-DECISIONS.md`)
-- Recorded spend: $0 (all pre-M1 entries carry `cost: UNKNOWN` per OD-3 rule 3)
+- Recorded spend: UNKNOWN (all register entries carry `cost: UNKNOWN` per OD-3 rule 3; no cost may be claimed as zero)
 - Remaining budget: $40
 - `npm run loop:cost` derives spend, cap, and remainder from the register
 

@@ -163,12 +163,12 @@ merge was gate-verified. That is the honest baseline, and M9's AC-10
 | M1-AC-7 | GBE-001 closure statement | **Created** — `docs/operations/GBE-001-CLOSURE.md` names genesis commit `3521730` and PR #1 as not gate-verified |
 | M1-AC-11 | Cumulative review spend reportable | **Created** — `scripts/loop-cost.mjs` reads cap from `docs/governance/OWNER-DECISIONS.md` (never hardcoded), parses `LOOP-REGISTER.jsonl` and reports spend, cap and remainder |
 | M1-AC-1,2,3 | Branch protection, CI, direct push rejection | **MET** — branch protection configured (required PR reviews, linear history, no direct push), CI workflow active on GitHub, `Validate` status check required |
-| M1-AC-8 | First gate-verified merge | **ACTIONABLE** — PR #1 mergeable through the narrow bootstrap exception: CI gate + branch protection + linear history |
-| M1-AC-10 | Review cost recorded at dispatch | **PROCESS ESTABLISHED** — register entries carry `cost: UNKNOWN` for pre-M1 periods per OD-3 rule 3; `scripts/loop-cost.mjs` reads the cap from the canonical record; all dispatch costs will be recorded from M1 onward |
+| M1-AC-8 | First merge through protected branch | **EXCEPTION** — PR #1 merged through the narrow bootstrap exception (CI gate + branch protection + linear history). Full merge gate (`evaluateMergeAllowed`) not yet ported (M2). Bootstrap exception is NOT a full-gate merge. |
+| M1-AC-10 | Review cost recorded at dispatch | **CORRECTED** — All register entries carry `cost: "UNKNOWN"` per OD-3 rule 3. `cost: 0` was found and removed; OD-3 rule 3 explicitly forbids claiming zero cost (`"never zero"`). `npm run loop:cost` now correctly reports all entries as UNKNOWN with no actual spending claimed. |
 
 ## GBE-001 closure statement
 
-`docs/operations/GBE-001-CLOSURE.md` records that the genesis commit (`3521730`) and PR #1 ("docs(foundation): Rick Loop v2 technical foundation plan") were **not gate-verified**. Conditions 1–4 are MET (branch protection, CI, golden vectors, written statement). Condition 5 is actionable via the narrow bootstrap exception. The exception closes when PR #1 merges through the gate.
+`docs/operations/GBE-001-CLOSURE.md` records that the genesis commit (`3521730`) and PR #1 ("docs(foundation): Rick Loop v2 technical foundation plan") were **not gate-verified**. Conditions 1–4 are MET (branch protection, CI, golden vectors, written statement). Condition 5 is MET via the narrow bootstrap exception (PR #1 merged through CI + branch protection). The exception closes at M1.
 
 ## Register entry
 
