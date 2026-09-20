@@ -108,7 +108,7 @@ All eight modules are plain Node ESM under `scripts/` in the source.
 | `skills/rick-autonomous-roadmap-loop/SKILL.md` | 65 lines | **Superseded**, last touched 2026-08-05, never updated |
 | `.github/workflows/claude-pr-review.yml` | 178 lines | `workflow_dispatch`-only since ARCH-04 |
 | `.github/workflows/claude-pr-review-meta.yml` | 200 lines | Secondary reviewer |
-| `.github/workflows/validate.yml` | 142 lines | 20+ hardcoded RecompraCRM `npm run test:*` steps |
+| `.github/workflows/validate.yml` | 142 lines | 24 hardcoded RecompraCRM `npm run test:*` steps (31 `npm run` steps total) |
 | `docs/operations/STATE.md` | 395 lines | `state_version: 85`, flat YAML |
 | `docs/operations/HANDOFF.md` | 273 lines | Resume path |
 | `docs/operations/LOOP-REGISTER.jsonl` | 170 lines | Append-only event truth |
@@ -173,14 +173,14 @@ parameterisation exercise, not a rewrite.
 | D1 | `controller.mjs:616,622,628`; `preflight.mjs:223-225,257`; `stats.mjs:4` | Hardcoded `docs/operations/STATE.md`, `HANDOFF.md`, `LOOP-REGISTER.jsonl`, `docs/roadmap/ROADMAP.md` | Path constant |
 | D2 | `controller.mjs:119`; `validation.mjs:312`; `supervisor.mjs:143` | Hardcoded `docs/specs/${task}.md` | Path constant |
 | D3 | `controller.mjs:104,105,114`; `roadmap.mjs:46` | `TASK-\d+` / `ARCH-` literal ID grammar | ID scheme |
-| D4 | `preflight.mjs:37-40` | `TRACKED_POINTERS` hardcodes `entry: "ARCH-04"` on all three pointers | **Governance item identity** |
+| D4 | `preflight.mjs:38-40` | `TRACKED_POINTERS` hardcodes `entry: "ARCH-04"` on all three pointers | **Governance item identity** |
 | D5 | `validation.mjs:19` | `prisma/migrations/` in `CRITICAL_PATH_PATTERNS` | Product stack |
 | D6 | `validation.mjs:14-20` | `app/api/`, `lib/.*(domain\|forecast\|…)` critical paths | Product layout |
 | D7 | `review-dispatch.mjs:13`; `watcher.mjs:8` | `CLAUDE_REVIEW_WORKFLOW = "claude-pr-review.yml"` | CI identity |
 | D8 | `controller.mjs:62` **and** `supervisor.mjs:11` | Two **divergent** `DOCS_ONLY_ALLOWLIST` regexes for one concept | **Duplicated rule** |
 | D9 | `controller.mjs:30`; `preflight.mjs:157` | `DEFAULT_BRANCH = "main"` | Config default |
 | D10 | `controller.mjs:33` | `GOVERNANCE_TASK = "LOOP-GOVERNANCE"` | ID scheme |
-| D11 | `.github/workflows/validate.yml` | 20+ RecompraCRM-specific `npm run test:*` steps | CI content |
+| D11 | `.github/workflows/validate.yml` | 24 RecompraCRM-specific `npm run test:*` steps (31 `npm run` steps total) | CI content |
 | D12 | `package.json` | `loop:*` / `test:loop-*` scripts mixed into a Next.js app manifest | Packaging |
 
 D1, D2, D7, D9 are mechanical. **D4 and D8 are defects, not merely coupling**,
@@ -195,7 +195,7 @@ in production across 43 merged PRs.
 
 | # | Component | Evidence | Disposition |
 | --- | --- | --- | --- |
-| P1 | `evaluateMergeAllowed`, `isCleanReviewResult`, `countUnresolvedFindings`, `selectMergeResult`, `buildAnchoredResults`, `filterAnchoredCleanComments` | **PROVEN** — not modified by any of 43 merged PRs; outranked agent judgement on #40, #39, #45 | **Port byte-identical.** Move the file; do not edit the logic |
+| P1 | `evaluateMergeAllowed`, `isCleanReviewResult`, `countUnresolvedFindings`, `selectMergeResult`, `buildAnchoredResults`, `filterAnchoredCleanComments` | **PROVEN, and re-derived precisely in M0** — all six last changed at `2b1e2f7` (PR #23, 2026-08-23) and unchanged across the **23 PRs merged after it**; outranked agent judgement on #40, #39, #45. See FINDING-002: the source audit's wording *"not modified by any of the 43 merged PRs"* is imprecise, because PR #23 was itself a merged PR that modified them | **Port byte-identical.** Move the file; do not edit the logic |
 | P2 | Exact-head verdict contract (`Reviewed commit: <sha>` + explicit clean phrase + independent author + zero unresolved anchored findings) | **PROVEN** — `countUnresolvedFindings` correctly excluded `isOutdated` threads on #44 | Port unchanged, **including author independence** |
 | P3 | `rick-loop-preflight.mjs` — nine fail-closed checks; unevaluable ⇒ failure | **PROVEN** — blocked its own PR (#39); blocked #47's dispatch on red CI | Port; preserve the fail-closed property |
 | P4 | `rick-loop-review-dispatch.mjs` — `workflow_dispatch`, exact-head verification, `--ref <default branch>` | **PROVEN** — 16/81 cancelled pre-cutover vs 1/18 after; duplicate dispatch refused in `IN_FLIGHT` and `REVIEWED` | Port with the `--ref` security property intact |
@@ -259,7 +259,7 @@ above an explicit historical marker, and that placement is checked.
 
 ### C3 — LOOP-REGISTER schema and severity — **[NEW] measurement**
 **Defect (transfer plan B1):** 120 of 182 finding records carry no severity.
-This audit measured the schema directly: **170 lines, 0 invalid JSON, ~250
+This audit measured the schema directly: **170 lines, 0 invalid JSON, 282
 distinct keys, and `severity` present on exactly 1 line (0.6%)**. The key space
 includes one-off narrative fields such as `why_this_one_is_the_sharpest` and
 `fourth_instance_and_why_it_is_the_worst`.
@@ -281,7 +281,7 @@ By the source's own lesson 1, *a gate that cannot fail is indistinguishable from
 no gate*. This is the **least proven** component being carried forward, and it
 is a gate.
 
-**Correction:** failing-path tests for every validation rejection reason before
+**Correction:** failing-path tests for every declared validation rejection rule ID, each observed firing, before
 the path is relied upon; record every attempt and every failure.
 
 ### C5 — Deterministic rule duplication — **[NEW]**
@@ -343,12 +343,23 @@ healthy path too.
 **No gate caught any of them, and none could** — they are claims about whether
 evidence is adequate.
 
-**Correction, scoped honestly:** this is **not fully mechanisable**. What is
-mechanisable: every guard must have a failing-case test per rejection rule
-(assertable by counting rules against failing tests), and an evidence document
-asserting "proved by failure assertion" must name a test id that exists. What
-remains human: whether the evidence is *sufficient*. v2 states this limit rather
-than implying coverage it does not have.
+**Correction, scoped honestly:** this is **not fully mechanisable**.
+
+What is mechanisable:
+
+1. **Every rejection rule carries a stable rule ID**, and each ID must be
+   *observed to fire* by a failing-case test that asserts on that ID. Counting is
+   not sufficient and was rejected at M0 in response to an independent review
+   finding (P2) on PR #1: **two failing tests exercising the same rule while a
+   third rule has none still reports parity**, which reproduces the exact
+   evidence gap C10 exists to prevent. The check is a set comparison —
+   `{rule IDs declared} ⊆ {rule IDs observed firing in a failing test}` — not a
+   count, and not the mere existence of a named test.
+2. An evidence document asserting "proved by failure assertion" must name a test
+   id, and that id must exist and be observed to fail when the guard is inverted.
+
+What remains human: whether the evidence is *sufficient*. v2 states this limit
+rather than implying coverage it does not have.
 
 ### C11 — Secrets-hygiene self-reference (Tier B3)
 Five self-references, answered by allowlist growth until the seventh was solved
@@ -459,11 +470,12 @@ closed on an unknown or missing key**, consistent with P3.
     ],
     "entryScoped": [ /* per-item pointers; entry id supplied by the caller */ ]
   },
-  "review": {                              // D7
+  "review": {                              // D7 — IDENTITY ONLY, never contract
     "workflow": "claude-pr-review.yml",
-    "metaWorkflow": "claude-pr-review-meta.yml",
-    "cleanVerdictPhrases": ["No major issues found.", "did not find any major issues"],
-    "requireIndependentAuthor": true
+    "metaWorkflow": "claude-pr-review-meta.yml"
+    // NOT configurable, by design — see "The contract is not a config key" below:
+    //   author independence, clean-verdict phrases, exact-head anchoring,
+    //   and zero-unresolved-findings live in core and have no config surface.
   },
   "validation": {
     "fastGates": ["lint", "typecheck", "unit", "integration", "build"],
@@ -475,6 +487,42 @@ closed on an unknown or missing key**, consistent with P3.
 
 `config/schema.mjs` asserts that **no core module reads a path or ID absent from
 the config** (AC-4).
+
+### 6.2 The contract is not a config key
+
+*Added at M0 in response to an independent review finding (P1) on PR #1; see
+`docs/governance/BOOTSTRAP-EXCEPTION.md`.*
+
+The first draft of §6.1 exposed `requireIndependentAuthor: true` and
+`cleanVerdictPhrases` as configuration. That was a defect, and a serious one:
+**a consuming repository could have set `requireIndependentAuthor: false` and
+disabled the author-independence rule that P2 and OD-2 both call
+non-negotiable** — the rule whose absence produced the source's
+`CLEAN_VERDICT_FROM_ONE_AUTHOR_MARKED_ANOTHER_AUTHORS_REVIEW_CLEAN` defect.
+Requiring the key to be present does not fail closed; it only guarantees that an
+unsafe value is stated explicitly.
+
+It would also have reintroduced, through the back door, precisely the property
+this project exists to prevent: **a gate adjustable under pressure.** A config
+file is the easiest place in a repository to apply that pressure.
+
+The rule, now explicit:
+
+> **Configuration may name identities. It may never state the contract.**
+
+| Belongs in config | Belongs in core, with no config surface |
+| --- | --- |
+| Which workflow file to dispatch | That the review author must differ from the PR author |
+| Which branch is default | Which phrases constitute an explicit clean verdict |
+| Where STATE/HANDOFF/ROADMAP live | That the verdict must name the exact HEAD |
+| Which ID grammar names a task | That unresolved findings must be zero, and that unknown is not zero |
+| Which fast gates exist | That an unevaluable check is a failure |
+
+Enforced by **AC-14**: `config.test.mjs` asserts that no key under `review`
+influences `isCleanReviewResult`, `buildAnchoredResults` or
+`evaluateMergeAllowed`, and that a config supplying `requireIndependentAuthor`,
+`cleanVerdictPhrases` or any other contract key is **rejected as an unknown
+key** rather than honoured.
 
 ---
 
@@ -491,10 +539,10 @@ weaken the gate.
 | **M1** | Governance bootstrap | `package.json` (zero deps), this repository's CI, branch protection, the §6 templates | `main` protected; CI green; §1.1 residual closed |
 | **M2** | **Characterization port** | Copy the 8 core modules and all 378 assertions **unedited** except import paths; add golden-vector tests over `evaluateMergeAllowed`, `isCleanReviewResult`, `countUnresolvedFindings`, `selectMergeResult`, `evaluatePreflight`, `evaluateDispatch` | 378 assertions green + golden vectors recorded. **No behaviour changed in this step** |
 | **M3** | Parameterisation | D1, D2, D3, D7, D9, D10 → config; `adapters/*` extracted; C5 rule deduplicated | Config-driven; M2 still green **bit-for-bit** on the merge-gate vectors |
-| **M4** | Register schema | C3 — closed core schema, typed findings array, append-time validation, required severity; the 170 source lines imported as a **read-only historical fixture** | An invalid append is refused, with a failing test per rejection rule |
+| **M4** | Register schema | C3 — closed core schema, typed findings array, append-time validation, required severity; the 170 source lines imported as a **read-only historical fixture** | An invalid append is refused, with every declared rejection rule ID observed firing in a failing test |
 | **M5** | Computed state | C1 + C2 — computed-truth cross-check, generated HANDOFF pointer block, ROADMAP header in the pointer set, `updated_at` freshness | The §5/C2 live drift is **reproduced as a failing test**, then passes |
 | **M6** | Resolver + orphans | C7, C8 — open-PR enumeration, plan-entry requirement, unresolvable-item reporting | A PR #21-shaped orphan is detected in fixture; an ARCH-03-shaped item is refused |
-| **M7** | Validation + evidence | C4, C6, C10 — validation failing-path tests, spec mandatory from task 1, guard-rule/test parity, evidence test-id assertions | Every validation rejection reason has a failing test |
+| **M7** | Validation + evidence | C4, C6, C10 — validation failing-path tests, spec mandatory from task 1, guard rule-ID coverage, evidence test-id assertions | Every declared rejection rule ID is observed firing in a failing test |
 | **M8** | Telemetry + hygiene | C9, C11, C12 — dispatch-time cost, fixtures exclusion, cleanup assertions | Cost recorded at dispatch; an unreconciled dispatch is not reported as zero |
 | **M9** | Baseline declaration | One `RICK_LOOP_V2_0` constant; consolidated `docs/protocol/RICK-LOOP-V2.md`; v2 runs its own loop on a throwaway item | Self-hosting proof (AC-10) |
 
@@ -522,13 +570,13 @@ to a vector requires an explicit, reviewed diff. This makes weakening the gate
 | Suite | Proves | Answers |
 | --- | --- | --- |
 | `pointers.test.mjs` | Recorded pointers cross-checked against computed truth; **the §5/C2 three-source drift fails the gate**; `updated_at` staleness detected | C1, C2 |
-| `register.test.mjs` | Append refused for: missing `severity` on a finding, unknown top-level key, invalid JSON, missing `run_id`/`task`/`event` — **one failing test per rejection rule** | C3 |
+| `register.test.mjs` | Append refused for: missing `severity` on a finding, unknown top-level key, invalid JSON, missing `run_id`/`task`/`event` — **every declared rule ID observed firing in a failing test** | C3 |
 | `rules.test.mjs` | `DOCS_ONLY_ALLOWLIST` has exactly one definition; controller and supervisor resolve identically | C5 |
 | `orphans.test.mjs` | An open PR with no active roadmap item is reported | C7 |
 | `resolver.test.mjs` | An item without a plan entry is refused at creation, and reported if already present | C8 |
-| `validation-failpaths.test.mjs` | Every validation rejection reason has a test that makes it fire | C4 |
+| `validation-failpaths.test.mjs` | Every declared validation rejection rule ID is observed firing in a failing test | C4 |
 | `spec-gate.test.mjs` | Task 1 without a spec cannot start | C6 |
-| `evidence-integrity.test.mjs` | Guard rules vs failing tests parity; evidence "failure assertion" claims name an existing test id | C10 |
+| `evidence-integrity.test.mjs` | Declared guard rule IDs are a subset of rule IDs observed firing in failing tests (set comparison, never a count); evidence "failure assertion" claims name an existing test id | C10 |
 | `telemetry.test.mjs` | Cost recorded at dispatch; an unreconciled dispatch reports unknown, not zero | C9 |
 | `config.test.mjs` | No core module reads a path/ID absent from config; an unknown config key fails closed | §6.1 |
 | `version.test.mjs` | Exactly one version constant; every declaration matches it | §2.3 |
@@ -536,7 +584,7 @@ to a vector requires an explicit, reviewed diff. This makes weakening the gate
 ### 8.4 The standing rule
 From lessons 1 and 2, both promoted from prose into CI:
 
-1. **Every guard has a test that makes it fail.** A rejection rule without a failing-case test is a build failure.
+1. **Every guard has a test that makes it fail.** A declared rule ID not observed firing in any failing test is a build failure; counting rules against tests is explicitly not sufficient.
 2. **Anything that scans tracked files is validated after its own files are tracked.** The source's guard passed locally and failed CI twice for exactly this reason.
 
 ---
@@ -559,8 +607,9 @@ contract: a partial result is not a pass.
 | **AC-9** | Exactly one version constant exists, and every declaration matches it | `version.test.mjs` |
 | **AC-10** | v2 executes one throwaway task end-to-end in `rick-loop` itself: spec → validation → dispatched exact-head review → gate → merge | Self-hosting run, evidence recorded |
 | **AC-11** | Review cost is recorded at dispatch; a cancelled run reports unknown cost | `telemetry.test.mjs` |
-| **AC-12** | Every validation rejection reason has a failing-case test | `validation-failpaths.test.mjs` |
+| **AC-12** | Every declared validation rejection rule ID is observed firing in a failing-case test | `validation-failpaths.test.mjs` |
 | **AC-13** | RecompraCRM is unmodified | `git status` clean and `git rev-parse HEAD` still `87d27d1` |
+| **AC-14** | No configuration key can weaken the review contract: a config supplying `requireIndependentAuthor`, `cleanVerdictPhrases` or any other contract key is **rejected as unknown**, not honoured | `config.test.mjs`; see §6.2 |
 
 **AC-10 is the baseline declaration.** Until v2 has driven one real task through
 its own gate, it is a plan that compiles, not a verified loop.
@@ -632,6 +681,31 @@ Each blocks a specific increment; none blocks M0–M2.
 
 ---
 
+## 13. M0 outputs
+
+This plan is one of seven M0 artifacts. The others carry the detail this
+document only summarises, and each is authoritative for its own subject.
+
+| Artifact | Authoritative for |
+| --- | --- |
+| `docs/evidence/FINDING-001-roadmap-header-drift.md` | The live three-source drift (C2), its mechanism, and its regression fixture |
+| `docs/evidence/FINDING-002-merge-gate-provenance.md` | The precise freeze point of the six gate functions, and the correction to P1's wording |
+| `docs/protocol/VERSION-IDENTITY.md` | `RICK_LOOP_V2_0_0` (CANDIDATE) and its binding to source commits |
+| `docs/governance/BOOTSTRAP-EXCEPTION.md` | `GBE-001` — what was and was not gated, reviewed or validated |
+| `docs/foundation/M1-M2-ACCEPTANCE-CRITERIA.md` | The explicit criteria for M1 and M2 |
+| `test/golden/merge-gate-vectors.json` | The frozen behavioural contract — 57 vectors |
+| `test/golden/README.md` | What the vectors are, and the rule that a diff in them is a behaviour change |
+
+Two corrections were applied to this document during M0 review, both from an
+independent review of PR #1, and both recorded in `GBE-001` rather than applied
+silently: **§6.2** (configuration may not state the review contract, new AC-14)
+and **C10/§8** (rule-ID set comparison, never count parity). Two imprecise
+figures of my own were also corrected and swept: the register's distinct-key
+count (282, not "~250") and `validate.yml`'s step count (24 test steps of 31
+total, not "20+").
+
+---
+
 ## Summary of findings
 
 **PROVEN and portable:** a deterministic fail-closed merge gate that held for 43
@@ -644,7 +718,7 @@ rather than a rewrite.
 **PROVEN and broken:** the bookkeeping layer. The dominant defect class is not
 historical — **the ROADMAP header is four tasks stale at the audited commit**, in
 the file the resolver reads, with every gate green, because **no gate compares it
-to anything**. The register carries ~250 ad-hoc keys and one severity field
+to anything**. The register carries 282 distinct ad-hoc keys and one severity field
 across 170 lines. The protocol answers to four names and nine recorded version
 values.
 

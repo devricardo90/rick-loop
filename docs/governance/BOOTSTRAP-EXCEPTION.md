@@ -1,0 +1,140 @@
+# Governance Bootstrap Exception — GBE-001
+
+| Field | Value |
+| --- | --- |
+| Exception id | `GBE-001` |
+| Status | **OPEN** — closes when M1 completes |
+| Opened | 2026-09-20, phase M0 |
+| Scope | The `rick-loop` repository only, commits from genesis until M1 merges |
+| Applies to | `main` genesis commit, PR #1 |
+
+## What the exception is
+
+The owner instruction is *"use the normal review and merge governance for
+changes."* At the time that instruction was given, `devricardo90/rick-loop`
+was **empty**: `isEmpty: true`, no commits, no default branch, no CI, no
+preflight, no merge gate, no branch protection.
+
+The governance being invoked did not exist in the repository it would govern.
+There was no gate to run, and no protected branch to run it against.
+
+**The gate cannot gate its own arrival.** This document records what was done
+instead, and — more importantly — what must not be claimed about it.
+
+## What actually happened
+
+| Step | Fact |
+| --- | --- |
+| Genesis commit | Pushed **directly to `main`**. README + `.gitignore` only. No gate existed to pass |
+| PR #1 | `docs/foundation-plan` → `main`. Not self-merged; left open for the owner |
+| Branch protection on `main` | **None.** `GET /branches/main/protection` → `404 Branch not protected` |
+| CI checks on PR #1 | **None.** `gh pr checks 1` → `no checks reported` |
+| Preflight | **Did not run.** It does not exist in this repository yet |
+| Merge gate | **Did not run.** `evaluateMergeAllowed` has not been ported yet |
+| Authoritative validation | **Did not run.** No spec, no ACs, no validator in this repository |
+
+## What must not be claimed
+
+Stated plainly, because M0 explicitly requires it:
+
+> **The genesis commit was not reviewed, not gated, and not validated.**
+> No deterministic preflight ran on it. No merge gate evaluated it. It is a
+> direct push to an unprotected default branch, performed solely so that a pull
+> request could exist at all.
+
+> **No Rick Loop governance has executed in this repository.** Every gate
+> described in the foundation plan is, at the time of writing, a design
+> proposal. None has run. Nothing in M0 should be read as evidence that the
+> v2 gate works, because the v2 gate does not yet exist.
+
+## Independent review: what did and did not occur
+
+This section exists because M0 requires: *do not claim independent review
+occurred if it did not.* Here it partly did, and the distinction matters.
+
+**An independent review did occur on PR #1.** Facts:
+
+| Property | Value |
+| --- | --- |
+| Reviewer | `chatgpt-codex-connector[bot]` — an automated reviewer configured on the repository |
+| PR author | `devricardo90` |
+| Author independence | **Satisfied** — reviewer ≠ author |
+| Review state | `COMMENTED` |
+| Reviewed commit named in body | `f64574dd10` |
+| PR HEAD at review time | `f64574dd109151acdf56abf3be36849fe5d00998` — **exact-head anchored** |
+| Inline findings | **2** — one P1, one P2 |
+| Explicit clean verdict phrase | **Absent** |
+
+**Under the v1 contract this review is NOT clean.** Evaluated against the
+functions captured in `test/golden/merge-gate-vectors.json`:
+
+- `hasExplicitCleanVerdict(body)` → **false**. The body reads *"Here are some automated review suggestions"*; it matches neither `no major issues` nor `didn't find any major issues`.
+- `isCleanReviewResult({state: "COMMENTED", body}, 0)` → **false**, because a `COMMENTED` state requires an explicit clean verdict.
+- With 2 unresolved findings, `zeroUnresolvedFindings` → **false**.
+- `evaluateMergeAllowed(...)` → **`allowed: false`**.
+
+So the accurate statement is:
+
+> **An independent, exact-head review occurred on PR #1 and returned FINDINGS.
+> It was not a clean verdict, and the merge gate — had it existed — would have
+> refused the merge.** PR #1 is not eligible for merge on review grounds, quite
+> apart from the absent gate.
+
+### The findings were real, and both were accepted
+
+Neither was argued with. Both identified genuine defects in the foundation plan:
+
+| Sev | Finding | Disposition |
+| --- | --- | --- |
+| **P1** | `requireIndependentAuthor` and `cleanVerdictPhrases` were exposed as **configuration**, so a consuming repository could set independence to `false` and disable the rule P2 and OD-2 call non-negotiable. Requiring the key does not fail closed against an unsafe value | **Fixed.** §6.2 added: *configuration may name identities, never state the contract.* Contract keys are now rejected as unknown. New **AC-14** |
+| **P2** | The C10 evidence control counted rules against failing tests, so two tests on one rule with a third untested would report parity — reproducing the gap C10 exists to prevent | **Fixed.** Rule IDs are now stable, and the check is a set comparison (`declared ⊆ observed firing`), never a count. Swept across all 8 occurrences in the plan |
+
+The P1 finding is worth naming beyond its fix: **the first independent review of
+this project caught a mechanism that would have made the merge gate adjustable
+from a config file** — the precise failure mode the whole port exists to
+prevent. It was caught by review, not by any gate, which is consistent with the
+source experiment's own finding that its bookkeeping and self-assessment were
+weaker than its implementation.
+
+### Consequence for the review's validity
+
+The M0 corrections change the head of `docs/foundation-plan`. Under the
+exact-head contract, **any HEAD change invalidates the verdict**, so the review
+above is anchored to a superseded commit the moment M0 is pushed. It is recorded
+here as history, not as standing approval of the current head.
+
+## Why this was not avoidable
+
+Three alternatives were considered.
+
+| Option | Why rejected |
+| --- | --- |
+| Port the gate first, then commit everything under it | Circular. The port itself needs a commit, a branch and a PR to land through, none of which exist in an empty repository |
+| Ask the owner to hand-create `main` and protection before any work | Defers the same exception to a human without removing it, and blocks M0 on an action that does not change the outcome |
+| Declare the governance satisfied because a PR was opened | **Dishonest.** An open PR with no checks, no protection and no gate is a review request, not governance |
+
+The exception is therefore recorded, bounded, and closed by M1 — rather than
+worked around or quietly satisfied.
+
+## Closure conditions
+
+`GBE-001` closes when **all** of the following are true. Verified at M1, and
+restated as M1's acceptance criteria:
+
+1. `main` is protected: direct pushes rejected, PR required, linear history.
+2. A CI workflow runs on every PR to `main` and reports a required check.
+3. `test/golden/merge-gate-vectors.json` is enforced by a test in CI.
+4. A written statement in `docs/operations/` records that commits before M1 —
+   the genesis commit and PR #1 — were **not** gate-verified, and names them.
+5. No commit after M1 reaches `main` except through a PR that passed the gate.
+
+Until item 5 holds for the first time, the repository has **zero** commits whose
+merge was gate-verified. That is the honest baseline, and M9's AC-10
+(self-hosting) is what changes it.
+
+## Register entry
+
+Recorded in this repository's `LOOP-REGISTER.jsonl` at M1, under the v2 schema,
+with `severity: P2` and `status: GOVERNANCE_BOOTSTRAP_EXCEPTION_OPEN`. It is not
+back-dated into the source register, which is append-only and belongs to a
+different project.
