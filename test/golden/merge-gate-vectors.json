@@ -1,0 +1,1310 @@
+{
+  "schema": "rick-loop/golden-vectors/v1",
+  "source_repository": "RecompraCRM",
+  "source_commit": "87d27d1f2f94a4fa64b0b6e789b1d1d99d1dc27a",
+  "gate_frozen_at": "2b1e2f76c7b72e583fcfef84ee74b89b0ac5db44",
+  "generated_by": "M0 read-only import of scripts/rick-loop-controller.mjs",
+  "note": "Observed behaviour, not desired behaviour. A diff here is a behaviour change and must be reviewed as one.",
+  "suites": {
+    "evaluateMergeAllowed": [
+      {
+        "name": "all_conditions_met",
+        "input": {
+          "currentHead": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "ci": {
+            "headSha": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          "requiredGatesGreen": true,
+          "review": {
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "independent": true,
+            "clean": true,
+            "submittedAt": "2026-09-01T10:00:00Z"
+          },
+          "unresolvedFindings": 0
+        },
+        "output": {
+          "allowed": true,
+          "checks": {
+            "exactHeadCiGreen": true,
+            "allRequiredGatesGreen": true,
+            "reviewPublished": true,
+            "reviewExactHead": true,
+            "independentReview": true,
+            "cleanReview": true,
+            "zeroUnresolvedFindings": true,
+            "reviewPublishedBeforeMerge": true
+          }
+        }
+      },
+      {
+        "name": "ci_head_mismatch",
+        "input": {
+          "currentHead": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "ci": {
+            "headSha": "0000000000000000000000000000000000000000",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          "requiredGatesGreen": true,
+          "review": {
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "independent": true,
+            "clean": true,
+            "submittedAt": "2026-09-01T10:00:00Z"
+          },
+          "unresolvedFindings": 0
+        },
+        "output": {
+          "allowed": false,
+          "checks": {
+            "exactHeadCiGreen": false,
+            "allRequiredGatesGreen": true,
+            "reviewPublished": true,
+            "reviewExactHead": true,
+            "independentReview": true,
+            "cleanReview": true,
+            "zeroUnresolvedFindings": true,
+            "reviewPublishedBeforeMerge": true
+          }
+        }
+      },
+      {
+        "name": "ci_not_completed",
+        "input": {
+          "currentHead": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "ci": {
+            "headSha": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+            "status": "in_progress",
+            "conclusion": "success"
+          },
+          "requiredGatesGreen": true,
+          "review": {
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "independent": true,
+            "clean": true,
+            "submittedAt": "2026-09-01T10:00:00Z"
+          },
+          "unresolvedFindings": 0
+        },
+        "output": {
+          "allowed": false,
+          "checks": {
+            "exactHeadCiGreen": false,
+            "allRequiredGatesGreen": true,
+            "reviewPublished": true,
+            "reviewExactHead": true,
+            "independentReview": true,
+            "cleanReview": true,
+            "zeroUnresolvedFindings": true,
+            "reviewPublishedBeforeMerge": true
+          }
+        }
+      },
+      {
+        "name": "ci_failed",
+        "input": {
+          "currentHead": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "ci": {
+            "headSha": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          "requiredGatesGreen": true,
+          "review": {
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "independent": true,
+            "clean": true,
+            "submittedAt": "2026-09-01T10:00:00Z"
+          },
+          "unresolvedFindings": 0
+        },
+        "output": {
+          "allowed": false,
+          "checks": {
+            "exactHeadCiGreen": false,
+            "allRequiredGatesGreen": true,
+            "reviewPublished": true,
+            "reviewExactHead": true,
+            "independentReview": true,
+            "cleanReview": true,
+            "zeroUnresolvedFindings": true,
+            "reviewPublishedBeforeMerge": true
+          }
+        }
+      },
+      {
+        "name": "ci_absent_is_not_a_pass",
+        "input": {
+          "currentHead": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "ci": null,
+          "requiredGatesGreen": true,
+          "review": {
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "independent": true,
+            "clean": true,
+            "submittedAt": "2026-09-01T10:00:00Z"
+          },
+          "unresolvedFindings": 0
+        },
+        "output": {
+          "allowed": false,
+          "checks": {
+            "exactHeadCiGreen": false,
+            "allRequiredGatesGreen": true,
+            "reviewPublished": true,
+            "reviewExactHead": true,
+            "independentReview": true,
+            "cleanReview": true,
+            "zeroUnresolvedFindings": true,
+            "reviewPublishedBeforeMerge": true
+          }
+        }
+      },
+      {
+        "name": "required_gates_not_green",
+        "input": {
+          "currentHead": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "ci": {
+            "headSha": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          "requiredGatesGreen": false,
+          "review": {
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "independent": true,
+            "clean": true,
+            "submittedAt": "2026-09-01T10:00:00Z"
+          },
+          "unresolvedFindings": 0
+        },
+        "output": {
+          "allowed": false,
+          "checks": {
+            "exactHeadCiGreen": true,
+            "allRequiredGatesGreen": false,
+            "reviewPublished": true,
+            "reviewExactHead": true,
+            "independentReview": true,
+            "cleanReview": true,
+            "zeroUnresolvedFindings": true,
+            "reviewPublishedBeforeMerge": true
+          }
+        }
+      },
+      {
+        "name": "no_review_published",
+        "input": {
+          "currentHead": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "ci": {
+            "headSha": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          "requiredGatesGreen": true,
+          "review": null,
+          "unresolvedFindings": 0
+        },
+        "output": {
+          "allowed": false,
+          "checks": {
+            "exactHeadCiGreen": true,
+            "allRequiredGatesGreen": true,
+            "reviewPublished": false,
+            "reviewExactHead": false,
+            "independentReview": false,
+            "cleanReview": false,
+            "zeroUnresolvedFindings": true,
+            "reviewPublishedBeforeMerge": true
+          }
+        }
+      },
+      {
+        "name": "review_without_timestamp_is_unpublished",
+        "input": {
+          "currentHead": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "ci": {
+            "headSha": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          "requiredGatesGreen": true,
+          "review": {
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "independent": true,
+            "clean": true,
+            "submittedAt": null
+          },
+          "unresolvedFindings": 0
+        },
+        "output": {
+          "allowed": false,
+          "checks": {
+            "exactHeadCiGreen": true,
+            "allRequiredGatesGreen": true,
+            "reviewPublished": false,
+            "reviewExactHead": true,
+            "independentReview": true,
+            "cleanReview": true,
+            "zeroUnresolvedFindings": true,
+            "reviewPublishedBeforeMerge": true
+          }
+        }
+      },
+      {
+        "name": "review_anchored_to_superseded_head",
+        "input": {
+          "currentHead": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "ci": {
+            "headSha": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          "requiredGatesGreen": true,
+          "review": {
+            "commit": {
+              "oid": "0000000000000000000000000000000000000000"
+            },
+            "independent": true,
+            "clean": true,
+            "submittedAt": "2026-09-01T10:00:00Z"
+          },
+          "unresolvedFindings": 0
+        },
+        "output": {
+          "allowed": false,
+          "checks": {
+            "exactHeadCiGreen": true,
+            "allRequiredGatesGreen": true,
+            "reviewPublished": true,
+            "reviewExactHead": false,
+            "independentReview": true,
+            "cleanReview": true,
+            "zeroUnresolvedFindings": true,
+            "reviewPublishedBeforeMerge": true
+          }
+        }
+      },
+      {
+        "name": "review_not_independent_PR40_shape",
+        "input": {
+          "currentHead": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "ci": {
+            "headSha": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          "requiredGatesGreen": true,
+          "review": {
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "independent": false,
+            "clean": true,
+            "submittedAt": "2026-09-01T10:00:00Z"
+          },
+          "unresolvedFindings": 0
+        },
+        "output": {
+          "allowed": false,
+          "checks": {
+            "exactHeadCiGreen": true,
+            "allRequiredGatesGreen": true,
+            "reviewPublished": true,
+            "reviewExactHead": true,
+            "independentReview": false,
+            "cleanReview": true,
+            "zeroUnresolvedFindings": true,
+            "reviewPublishedBeforeMerge": true
+          }
+        }
+      },
+      {
+        "name": "review_not_clean_PR45_shape",
+        "input": {
+          "currentHead": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "ci": {
+            "headSha": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          "requiredGatesGreen": true,
+          "review": {
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "independent": true,
+            "clean": false,
+            "submittedAt": "2026-09-01T10:00:00Z"
+          },
+          "unresolvedFindings": 0
+        },
+        "output": {
+          "allowed": false,
+          "checks": {
+            "exactHeadCiGreen": true,
+            "allRequiredGatesGreen": true,
+            "reviewPublished": true,
+            "reviewExactHead": true,
+            "independentReview": true,
+            "cleanReview": false,
+            "zeroUnresolvedFindings": true,
+            "reviewPublishedBeforeMerge": true
+          }
+        }
+      },
+      {
+        "name": "one_unresolved_finding",
+        "input": {
+          "currentHead": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "ci": {
+            "headSha": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          "requiredGatesGreen": true,
+          "review": {
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "independent": true,
+            "clean": true,
+            "submittedAt": "2026-09-01T10:00:00Z"
+          },
+          "unresolvedFindings": 1
+        },
+        "output": {
+          "allowed": false,
+          "checks": {
+            "exactHeadCiGreen": true,
+            "allRequiredGatesGreen": true,
+            "reviewPublished": true,
+            "reviewExactHead": true,
+            "independentReview": true,
+            "cleanReview": true,
+            "zeroUnresolvedFindings": false,
+            "reviewPublishedBeforeMerge": true
+          }
+        }
+      },
+      {
+        "name": "unresolved_findings_unknown_fails_closed",
+        "input": {
+          "currentHead": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "ci": {
+            "headSha": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          "requiredGatesGreen": true,
+          "review": {
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "independent": true,
+            "clean": true,
+            "submittedAt": "2026-09-01T10:00:00Z"
+          },
+          "unresolvedFindings": null
+        },
+        "output": {
+          "allowed": false,
+          "checks": {
+            "exactHeadCiGreen": true,
+            "allRequiredGatesGreen": true,
+            "reviewPublished": true,
+            "reviewExactHead": true,
+            "independentReview": true,
+            "cleanReview": true,
+            "zeroUnresolvedFindings": false,
+            "reviewPublishedBeforeMerge": true
+          }
+        }
+      },
+      {
+        "name": "no_current_head_fails_closed",
+        "input": {
+          "currentHead": null,
+          "ci": {
+            "headSha": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          "requiredGatesGreen": true,
+          "review": {
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "independent": true,
+            "clean": true,
+            "submittedAt": "2026-09-01T10:00:00Z"
+          },
+          "unresolvedFindings": 0
+        },
+        "output": {
+          "allowed": false,
+          "checks": {
+            "exactHeadCiGreen": false,
+            "allRequiredGatesGreen": true,
+            "reviewPublished": true,
+            "reviewExactHead": false,
+            "independentReview": true,
+            "cleanReview": true,
+            "zeroUnresolvedFindings": true,
+            "reviewPublishedBeforeMerge": true
+          }
+        }
+      },
+      {
+        "name": "merge_before_review_published",
+        "input": {
+          "currentHead": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "ci": {
+            "headSha": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          "requiredGatesGreen": true,
+          "review": {
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "independent": true,
+            "clean": true,
+            "submittedAt": "2026-09-01T11:00:00Z"
+          },
+          "unresolvedFindings": 0,
+          "mergeTimestamp": "2026-09-01T10:00:00Z"
+        },
+        "output": {
+          "allowed": false,
+          "checks": {
+            "exactHeadCiGreen": true,
+            "allRequiredGatesGreen": true,
+            "reviewPublished": true,
+            "reviewExactHead": true,
+            "independentReview": true,
+            "cleanReview": true,
+            "zeroUnresolvedFindings": true,
+            "reviewPublishedBeforeMerge": false
+          }
+        }
+      },
+      {
+        "name": "merge_after_review_published",
+        "input": {
+          "currentHead": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "ci": {
+            "headSha": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          "requiredGatesGreen": true,
+          "review": {
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "independent": true,
+            "clean": true,
+            "submittedAt": "2026-09-01T10:00:00Z"
+          },
+          "unresolvedFindings": 0,
+          "mergeTimestamp": "2026-09-01T11:00:00Z"
+        },
+        "output": {
+          "allowed": true,
+          "checks": {
+            "exactHeadCiGreen": true,
+            "allRequiredGatesGreen": true,
+            "reviewPublished": true,
+            "reviewExactHead": true,
+            "independentReview": true,
+            "cleanReview": true,
+            "zeroUnresolvedFindings": true,
+            "reviewPublishedBeforeMerge": true
+          }
+        }
+      }
+    ],
+    "isCleanReviewResult": [
+      {
+        "name": "approved_zero_findings",
+        "input": [
+          {
+            "state": "APPROVED"
+          },
+          0
+        ],
+        "output": true
+      },
+      {
+        "name": "approved_one_finding",
+        "input": [
+          {
+            "state": "APPROVED"
+          },
+          1
+        ],
+        "output": false
+      },
+      {
+        "name": "approved_unknown_findings",
+        "input": [
+          {
+            "state": "APPROVED"
+          },
+          null
+        ],
+        "output": false
+      },
+      {
+        "name": "commented_with_clean_phrase",
+        "input": [
+          {
+            "state": "COMMENTED",
+            "body": "No major issues found."
+          },
+          0
+        ],
+        "output": true
+      },
+      {
+        "name": "commented_with_contraction_variant",
+        "input": [
+          {
+            "state": "COMMENTED",
+            "body": "I didn't find any major issues."
+          },
+          0
+        ],
+        "output": true
+      },
+      {
+        "name": "commented_without_clean_phrase",
+        "input": [
+          {
+            "state": "COMMENTED",
+            "body": "Looks fine to me."
+          },
+          0
+        ],
+        "output": false
+      },
+      {
+        "name": "commented_clean_phrase_but_open_finding",
+        "input": [
+          {
+            "state": "COMMENTED",
+            "body": "No major issues found."
+          },
+          1
+        ],
+        "output": false
+      },
+      {
+        "name": "changes_requested",
+        "input": [
+          {
+            "state": "CHANGES_REQUESTED",
+            "body": "No major issues found."
+          },
+          0
+        ],
+        "output": false
+      },
+      {
+        "name": "null_review",
+        "input": [
+          null,
+          0
+        ],
+        "output": false
+      },
+      {
+        "name": "non_integer_findings",
+        "input": [
+          {
+            "state": "APPROVED"
+          },
+          "0"
+        ],
+        "output": false
+      }
+    ],
+    "countUnresolvedFindings": [
+      {
+        "name": "threads_not_an_array_is_unknown",
+        "input": [
+          null,
+          "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+        ],
+        "output": null
+      },
+      {
+        "name": "no_head_is_unknown",
+        "input": [
+          [],
+          null
+        ],
+        "output": null
+      },
+      {
+        "name": "empty_threads",
+        "input": [
+          [],
+          "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+        ],
+        "output": 0
+      },
+      {
+        "name": "anchored_open_thread_counts",
+        "input": [
+          [
+            {
+              "isResolved": false,
+              "comments": {
+                "nodes": [
+                  {
+                    "commit": {
+                      "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+        ],
+        "output": 1
+      },
+      {
+        "name": "resolved_thread_excluded",
+        "input": [
+          [
+            {
+              "isResolved": true,
+              "comments": {
+                "nodes": [
+                  {
+                    "commit": {
+                      "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+        ],
+        "output": 0
+      },
+      {
+        "name": "outdated_thread_excluded_PR44_shape",
+        "input": [
+          [
+            {
+              "isOutdated": true,
+              "comments": {
+                "nodes": [
+                  {
+                    "commit": {
+                      "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+        ],
+        "output": 0
+      },
+      {
+        "name": "thread_on_other_head_excluded",
+        "input": [
+          [
+            {
+              "comments": {
+                "nodes": [
+                  {
+                    "commit": {
+                      "oid": "0000000000000000000000000000000000000000"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+        ],
+        "output": 0
+      },
+      {
+        "name": "bare_array_comments_shape",
+        "input": [
+          [
+            {
+              "comments": [
+                {
+                  "commit": {
+                    "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+                  }
+                }
+              ]
+            }
+          ],
+          "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+        ],
+        "output": 1
+      },
+      {
+        "name": "two_open_anchored_threads",
+        "input": [
+          [
+            {
+              "comments": {
+                "nodes": [
+                  {
+                    "commit": {
+                      "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "comments": {
+                "nodes": [
+                  {
+                    "commit": {
+                      "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+        ],
+        "output": 2
+      },
+      {
+        "name": "outdated_excluded_while_live_counted",
+        "input": [
+          [
+            {
+              "isOutdated": true,
+              "comments": {
+                "nodes": [
+                  {
+                    "commit": {
+                      "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "comments": {
+                "nodes": [
+                  {
+                    "commit": {
+                      "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+        ],
+        "output": 1
+      }
+    ],
+    "filterAnchoredCleanComments": [
+      {
+        "name": "clean_phrase_with_matching_full_sha",
+        "input": [
+          [
+            {
+              "body": "Reviewed commit: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0\nNo major issues found."
+            }
+          ],
+          "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+        ],
+        "output": [
+          {
+            "body": "Reviewed commit: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0\nNo major issues found."
+          }
+        ]
+      },
+      {
+        "name": "clean_phrase_with_matching_short_sha",
+        "input": [
+          [
+            {
+              "body": "Reviewed commit: a1b2c3d\nNo major issues found."
+            }
+          ],
+          "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+        ],
+        "output": [
+          {
+            "body": "Reviewed commit: a1b2c3d\nNo major issues found."
+          }
+        ]
+      },
+      {
+        "name": "clean_phrase_with_other_sha",
+        "input": [
+          [
+            {
+              "body": "Reviewed commit: 0000000000000000000000000000000000000000\nNo major issues found."
+            }
+          ],
+          "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+        ],
+        "output": []
+      },
+      {
+        "name": "clean_phrase_without_reviewed_commit",
+        "input": [
+          [
+            {
+              "body": "No major issues found."
+            }
+          ],
+          "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+        ],
+        "output": []
+      },
+      {
+        "name": "reviewed_commit_without_clean_phrase",
+        "input": [
+          [
+            {
+              "body": "Reviewed commit: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0\nFindings: 2"
+            }
+          ],
+          "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+        ],
+        "output": []
+      },
+      {
+        "name": "case_insensitive_marker",
+        "input": [
+          [
+            {
+              "body": "reviewed commit: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0\nno major issues"
+            }
+          ],
+          "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+        ],
+        "output": [
+          {
+            "body": "reviewed commit: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0\nno major issues"
+          }
+        ]
+      },
+      {
+        "name": "comments_not_an_array",
+        "input": [
+          null,
+          "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+        ],
+        "output": []
+      },
+      {
+        "name": "no_head",
+        "input": [
+          [
+            {
+              "body": "Reviewed commit: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0\nNo major issues found."
+            }
+          ],
+          null
+        ],
+        "output": []
+      }
+    ],
+    "buildAnchoredResults": [
+      {
+        "name": "independent_clean_review",
+        "input": {
+          "reviews": [
+            {
+              "commit": {
+                "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+              },
+              "user": {
+                "login": "independent-reviewer"
+              },
+              "state": "APPROVED",
+              "submittedAt": "2026-09-01T10:00:00Z"
+            }
+          ],
+          "headOid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "authorLogin": "impl-author",
+          "unresolvedFindings": 0
+        },
+        "output": [
+          {
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "user": {
+              "login": "independent-reviewer"
+            },
+            "state": "APPROVED",
+            "submittedAt": "2026-09-01T10:00:00Z",
+            "source": "review",
+            "independent": true,
+            "clean": true,
+            "unresolvedFindings": 0
+          }
+        ]
+      },
+      {
+        "name": "self_review_is_not_independent",
+        "input": {
+          "reviews": [
+            {
+              "commit": {
+                "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+              },
+              "user": {
+                "login": "impl-author"
+              },
+              "state": "APPROVED",
+              "submittedAt": "2026-09-01T10:00:00Z"
+            }
+          ],
+          "headOid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "authorLogin": "impl-author",
+          "unresolvedFindings": 0
+        },
+        "output": [
+          {
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "user": {
+              "login": "impl-author"
+            },
+            "state": "APPROVED",
+            "submittedAt": "2026-09-01T10:00:00Z",
+            "source": "review",
+            "independent": false,
+            "clean": true,
+            "unresolvedFindings": 0
+          }
+        ]
+      },
+      {
+        "name": "review_on_other_head_dropped",
+        "input": {
+          "reviews": [
+            {
+              "commit": {
+                "oid": "0000000000000000000000000000000000000000"
+              },
+              "user": {
+                "login": "independent-reviewer"
+              },
+              "state": "APPROVED",
+              "submittedAt": "2026-09-01T10:00:00Z"
+            }
+          ],
+          "headOid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "authorLogin": "impl-author",
+          "unresolvedFindings": 0
+        },
+        "output": []
+      },
+      {
+        "name": "clean_comment_source",
+        "input": {
+          "cleanComments": [
+            {
+              "body": "Reviewed commit: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0\nNo major issues found.",
+              "user": {
+                "login": "independent-reviewer"
+              },
+              "created_at": "2026-09-01T10:00:00Z"
+            }
+          ],
+          "headOid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "authorLogin": "impl-author",
+          "unresolvedFindings": 0
+        },
+        "output": [
+          {
+            "body": "Reviewed commit: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0\nNo major issues found.",
+            "user": {
+              "login": "independent-reviewer"
+            },
+            "created_at": "2026-09-01T10:00:00Z",
+            "source": "clean_comment",
+            "state": "COMMENTED",
+            "submittedAt": "2026-09-01T10:00:00Z",
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "independent": true,
+            "clean": true,
+            "unresolvedFindings": 0
+          }
+        ]
+      },
+      {
+        "name": "ordered_by_submitted_at",
+        "input": {
+          "reviews": [
+            {
+              "commit": {
+                "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+              },
+              "user": {
+                "login": "independent-reviewer"
+              },
+              "state": "APPROVED",
+              "submittedAt": "2026-09-01T11:00:00Z"
+            }
+          ],
+          "cleanComments": [
+            {
+              "body": "Reviewed commit: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0\nNo major issues found.",
+              "user": {
+                "login": "independent-reviewer"
+              },
+              "created_at": "2026-09-01T10:00:00Z"
+            }
+          ],
+          "headOid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "authorLogin": "impl-author",
+          "unresolvedFindings": 0
+        },
+        "output": [
+          {
+            "body": "Reviewed commit: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0\nNo major issues found.",
+            "user": {
+              "login": "independent-reviewer"
+            },
+            "created_at": "2026-09-01T10:00:00Z",
+            "source": "clean_comment",
+            "state": "COMMENTED",
+            "submittedAt": "2026-09-01T10:00:00Z",
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "independent": true,
+            "clean": true,
+            "unresolvedFindings": 0
+          },
+          {
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "user": {
+              "login": "independent-reviewer"
+            },
+            "state": "APPROVED",
+            "submittedAt": "2026-09-01T11:00:00Z",
+            "source": "review",
+            "independent": true,
+            "clean": true,
+            "unresolvedFindings": 0
+          }
+        ]
+      },
+      {
+        "name": "findings_make_results_unclean",
+        "input": {
+          "reviews": [
+            {
+              "commit": {
+                "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+              },
+              "user": {
+                "login": "independent-reviewer"
+              },
+              "state": "APPROVED",
+              "submittedAt": "2026-09-01T10:00:00Z"
+            }
+          ],
+          "headOid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "authorLogin": "impl-author",
+          "unresolvedFindings": 2
+        },
+        "output": [
+          {
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "user": {
+              "login": "independent-reviewer"
+            },
+            "state": "APPROVED",
+            "submittedAt": "2026-09-01T10:00:00Z",
+            "source": "review",
+            "independent": true,
+            "clean": false,
+            "unresolvedFindings": 2
+          }
+        ]
+      },
+      {
+        "name": "no_head_returns_empty",
+        "input": {
+          "reviews": [
+            {
+              "commit": {
+                "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+              },
+              "user": {
+                "login": "independent-reviewer"
+              },
+              "state": "APPROVED",
+              "submittedAt": "2026-09-01T10:00:00Z"
+            }
+          ],
+          "headOid": null,
+          "authorLogin": "impl-author",
+          "unresolvedFindings": 0
+        },
+        "output": []
+      },
+      {
+        "name": "missing_login_is_not_independent",
+        "input": {
+          "reviews": [
+            {
+              "commit": {
+                "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+              },
+              "user": null,
+              "state": "APPROVED",
+              "submittedAt": "2026-09-01T10:00:00Z"
+            }
+          ],
+          "headOid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+          "authorLogin": "impl-author",
+          "unresolvedFindings": 0
+        },
+        "output": [
+          {
+            "commit": {
+              "oid": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0"
+            },
+            "user": null,
+            "state": "APPROVED",
+            "submittedAt": "2026-09-01T10:00:00Z",
+            "source": "review",
+            "independent": false,
+            "clean": true,
+            "unresolvedFindings": 0
+          }
+        ]
+      }
+    ],
+    "selectMergeResult": [
+      {
+        "name": "changes_requested_outranks_clean",
+        "input": [
+          [
+            {
+              "state": "COMMENTED",
+              "independent": true,
+              "clean": true
+            },
+            {
+              "state": "CHANGES_REQUESTED",
+              "independent": true,
+              "clean": false
+            }
+          ]
+        ],
+        "output": {
+          "state": "CHANGES_REQUESTED",
+          "independent": true,
+          "clean": false
+        }
+      },
+      {
+        "name": "independent_clean_selected",
+        "input": [
+          [
+            {
+              "state": "COMMENTED",
+              "independent": false,
+              "clean": true
+            },
+            {
+              "state": "APPROVED",
+              "independent": true,
+              "clean": true
+            }
+          ]
+        ],
+        "output": {
+          "state": "APPROVED",
+          "independent": true,
+          "clean": true
+        }
+      },
+      {
+        "name": "falls_back_to_last_when_none_qualify",
+        "input": [
+          [
+            {
+              "state": "COMMENTED",
+              "independent": false,
+              "clean": true
+            },
+            {
+              "state": "COMMENTED",
+              "independent": true,
+              "clean": false
+            }
+          ]
+        ],
+        "output": {
+          "state": "COMMENTED",
+          "independent": true,
+          "clean": false
+        }
+      },
+      {
+        "name": "empty_list",
+        "input": [
+          []
+        ],
+        "output": null
+      },
+      {
+        "name": "not_an_array",
+        "input": [
+          null
+        ],
+        "output": null
+      }
+    ]
+  }
+}
