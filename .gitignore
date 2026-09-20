@@ -1,0 +1,4 @@
+node_modules/
+.rick/tmp/
+*.log
+.DS_Store
