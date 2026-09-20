@@ -7,7 +7,7 @@
 | Genesis commit | `3521730` ("chore: genesis commit for the Rick Loop v2 repository") |
 | Pushed to | `main` directly, no gate, no protection |
 | Branch | `main` (protected) |
-| Current HEAD | `c84c9f6` (M2 bootstrap: 6 gate functions ported, 57 golden vectors passing) |
+| Current HEAD | `6164cfa` (M2 bootstrap: 6 gate functions ported, 57 golden vectors passing) |
 
 ## Gate-verified merges
 
