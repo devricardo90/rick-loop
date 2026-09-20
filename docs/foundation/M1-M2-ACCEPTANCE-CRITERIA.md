@@ -41,6 +41,8 @@ closes.
 | **M1-AC-7** | `GBE-001` closure conditions 1–4 are met, and a statement in `docs/operations/` names the genesis commit and PR #1 as **not gate-verified** | `docs/governance/BOOTSTRAP-EXCEPTION.md` updated to `CLOSED`, with the naming statement merged |
 | **M1-AC-8** | The first PR merged **through** the gate is recorded as the repository's first gate-verified merge | Register entry, v2 schema, naming the PR and its verdict |
 | **M1-AC-9** | No core runtime code is present | `core/` contains only `version.mjs`. M1 ships governance, not the port |
+| **M1-AC-10** | Review cost is recorded **at dispatch**, not only at completion (OD-3 operating rule 3) | Every review dispatched from M1 onward has a register entry carrying its cost or an explicit `cost: UNKNOWN`; a cancelled run is `UNKNOWN`, never omitted and never zero |
+| **M1-AC-11** | Cumulative review spend against the OD-3 cap is reportable at any time | `npm run loop:cost` (or an equivalent documented command) sums the register's cost entries and prints spend, cap and remainder. The cap value is read from the canonical decision record, never hardcoded here |
 
 ### M1 exit condition
 
@@ -118,7 +120,9 @@ freeze is real, and it must be performed and recorded, not assumed.
 
 ## Standing constraints for both milestones
 
-1. **RecompraCRM is read-only.** Files are copied out; nothing is written in. Asserted by M2-AC-9 and AC-13.
-2. **No LoopLab.** The 10-sprint experiment does not begin at M1 or M2.
-3. **No correction before M3.** C1–C12 are out of scope for both milestones.
-4. **Every claim of governance names what actually ran.** While `GBE-001` is open, no artifact may describe this repository's commits as gate-verified.
+1. **RecompraCRM is read-only for the duration of v2 extraction, development and LoopLab** (OD-5). Files are copied out; nothing is written in. Asserted by M2-AC-9 and AC-13. The restriction is temporary — a later, separately reviewed migration may be authorised — but nothing in M1 or M2 may assume it or prepare for it.
+2. **Review is dispatched once per HEAD, never per push** (OD-3 operating rule 2), and never on a head that has not passed local gates (rule 1). The $40 cap makes cancelled runs unaffordable.
+3. **No LoopLab.** The 10-sprint experiment does not begin at M1 or M2.
+4. **No correction before M3.** C1–C12 are out of scope for both milestones.
+5. **Every claim of governance names what actually ran.** While `GBE-001` is open, no artifact may describe this repository's commits as gate-verified.
+6. **Owner decisions are not restated here.** OD-1…OD-5 live only in `docs/governance/OWNER-DECISIONS.md`; this document cites them by number and applies them.

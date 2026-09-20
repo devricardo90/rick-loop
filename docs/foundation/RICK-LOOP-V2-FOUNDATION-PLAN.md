@@ -657,7 +657,7 @@ its own gate, it is a plan that compiles, not a verified loop.
 
 ## 11. Proposed implementation sequence
 
-1. **M0** — owner reviews this plan; confirm the §1.1 bootstrap residual and the §12 open decisions.
+1. **M0** — **complete.** Plan reviewed, §1.1 bootstrap residual accepted as `GBE-001`, and OD-1…OD-5 resolved (§12).
 2. **M1** — governance bootstrap, so that subsequent increments are actually governed.
 3. **M2** — characterization port. **Highest value per unit of risk**, and the only moment at which "unchanged" is cheap to prove.
 4. **M3** — parameterisation, with M2 as the standing invariant.
@@ -667,27 +667,40 @@ its own gate, it is a plan that compiles, not a verified loop.
 
 ---
 
-## 12. Open decisions for the owner
+## 12. Owner decisions
 
-Each blocks a specific increment; none blocks M0–M2.
+**OD-1 through OD-5 were resolved at M0 on 2026-09-20.**
 
-| # | Decision | Blocks | Recommendation |
-| --- | --- | --- | --- |
-| **OD-1** | Does the 170-line source register migrate as a historical fixture, or does v2 start with an empty register? | M4 | **Fixture, read-only.** It is the evidence base for §5 and must not be rewritten to fit a schema it predates |
-| **OD-2** | Second independent reviewer identity for this repository | AC-10 | Provision before M9. P2's independence rule is non-negotiable and was proven load-bearing on #40 |
-| **OD-3** | Review budget for v2's own loop | AC-10 | Authorise a capped amount; the source mean was $0.97/review |
-| **OD-4** | Does `rick-loop` ship as an npm package, a git submodule, or a copied `core/` directory? | M3 structure | **Copied `core/` + config** first. Packaging is a distribution question, and the source proved nothing about it |
-| **OD-5** | Is RecompraCRM ever migrated onto v2, or does it stay frozen at the experiment? | Out of scope for M0–M9 | **Stay frozen.** It is a real product, and the instruction is read-only |
+They are recorded in one place, and this section deliberately does not copy
+them:
+
+> **Canonical:** [`docs/governance/OWNER-DECISIONS.md`](../governance/OWNER-DECISIONS.md)
+
+That file is the single source of truth for owner decisions. It carries each
+decision, its status, what it blocks, the alternatives rejected, and — where the
+owner chose against the recommendation — the consequences that follow.
+
+This section previously restated all five with recommendations, while they were
+still open. Restating them here now would create a second place where a decision
+lives, which is the defect class this project exists to correct: the moment the
+canonical record changes, the copy becomes a confident statement of a superseded
+position. The correction to OD-5's scope, made hours after it was first written,
+is exactly how that happens.
+
+**One roadmap, one decision record.** The milestone sequence M0–M9 lives in §7 of
+this document and nowhere else; the decisions live in the file above and nowhere
+else. Neither duplicates the other.
 
 ---
 
 ## 13. M0 outputs
 
-This plan is one of seven M0 artifacts. The others carry the detail this
+This plan is one of eight M0 artifacts. The others carry the detail this
 document only summarises, and each is authoritative for its own subject.
 
 | Artifact | Authoritative for |
 | --- | --- |
+| `docs/governance/OWNER-DECISIONS.md` | **Canonical** — OD-1 … OD-5, and any future OD-6 |
 | `docs/evidence/FINDING-001-roadmap-header-drift.md` | The live three-source drift (C2), its mechanism, and its regression fixture |
 | `docs/evidence/FINDING-002-merge-gate-provenance.md` | The precise freeze point of the six gate functions, and the correction to P1's wording |
 | `docs/protocol/VERSION-IDENTITY.md` | `RICK_LOOP_V2_0_0` (CANDIDATE) and its binding to source commits |
