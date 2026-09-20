@@ -132,7 +132,7 @@ Until item 5 holds for the first time, the repository has **zero** commits whose
 merge was gate-verified. That is the honest baseline, and M9's AC-10
 (self-hosting) is what changes it.
 
-## M1 Deliverables status (verified at commit 7cb40cb)
+## M1 Deliverables status (verified at commit 7cfa7ff)
 
 | M1-AC | Deliverable | Status |
 | --- | --- | --- |
@@ -141,7 +141,7 @@ merge was gate-verified. That is the honest baseline, and M9's AC-10
 | M1-AC-6 | Golden vectors enforced in CI | **Created** — `.github/workflows/validate.yml` calls `npm run test:golden`; `test/golden/validate.test.mjs` validates vector structure |
 | M1-AC-9 | No core runtime code beyond `version.mjs` | **Created** — `core/` contains only `version.mjs` |
 | M1-AC-7 | GBE-001 closure statement | **Created** — `docs/operations/GBE-001-CLOSURE.md` names genesis commit `3521730` and PR #1 as not gate-verified |
-| M1-AC-11 | Cumulative review spend reportable | **Created** — `scripts/loop-cost.mjs` reads `LOOP-REGISTER.jsonl` and reports against OD-3 cap |
+| M1-AC-11 | Cumulative review spend reportable | **Created** — `scripts/loop-cost.mjs` reads cap from `docs/governance/OWNER-DECISIONS.md` (never hardcoded), parses `LOOP-REGISTER.jsonl` and reports spend, cap and remainder |
 | M1-AC-1,2,3 | Branch protection, CI, direct push rejection | **PENDING** — requires GitHub platform action |
 | M1-AC-8 | First gate-verified merge | **PENDING** — no commit has reached `main` through the gate |
 | M1-AC-10 | Review cost recorded at dispatch | **PENDING** — register entries have `cost: UNKNOWN`; costs recorded at dispatch from M1 onward |
