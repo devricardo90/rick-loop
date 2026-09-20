@@ -31,10 +31,17 @@ describe('Version identity (AC-9)', () => {
     assert.strictEqual(GATE_FROZEN_COMMIT, '2b1e2f76c7b72e583fcfef84ee74b89b0ac5db44');
   });
 
-  it('core/ contains only version.mjs', () => {
+  it('core/ contains all 8 ported modules', () => {
     const coreDir = join(__dirname, '..', '..', 'core');
-    const entries = readdirSync(coreDir);
-    assert.strictEqual(entries.length, 1);
-    assert.strictEqual(entries[0], 'version.mjs');
+    const entries = readdirSync(coreDir).sort();
+    assert.strictEqual(entries.length, 8);
+    assert.strictEqual(entries[0], 'buildAnchoredResults.mjs');
+    assert.strictEqual(entries[1], 'countUnresolvedFindings.mjs');
+    assert.strictEqual(entries[2], 'evaluateMergeAllowed.mjs');
+    assert.strictEqual(entries[3], 'filterAnchoredCleanComments.mjs');
+    assert.strictEqual(entries[4], 'hasExplicitCleanVerdict.mjs');
+    assert.strictEqual(entries[5], 'isCleanReviewResult.mjs');
+    assert.strictEqual(entries[6], 'selectMergeResult.mjs');
+    assert.strictEqual(entries[7], 'version.mjs');
   });
 });

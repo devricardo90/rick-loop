@@ -7,13 +7,13 @@
 | Genesis commit | `3521730` ("chore: genesis commit for the Rick Loop v2 repository") |
 | Pushed to | `main` directly, no gate, no protection |
 | Branch | `main` (protected) |
-| Current HEAD | `cd5733c` (M1 closure: GBE-001 closed, bootstrap exception merge recorded) |
+| Current HEAD | `c84c9f6` (M2 bootstrap: 6 gate functions ported, 57 golden vectors passing) |
 
 ## Gate-verified merges
 
 **1.** Commit `f76cc75` — PR #1 ("docs(foundation): Rick Loop v2 technical foundation plan")
 merged through protected `main` with CI passing under narrow bootstrap exception.
-Review returned FINDINGS (not clean). Full merge gate (`evaluateMergeAllowed`) not yet ported (M2).
+Review returned FINDINGS (not clean). Full merge gate (`evaluateMergeAllowed`) ported at M2 (byte-identical to source `87d27d1`).
 See `docs/operations/GBE-001-CLOSURE.md`.
 
 ## GBE-001
@@ -27,12 +27,18 @@ See `docs/operations/GBE-001-CLOSURE.md`.
 
 ## Current milestone
 
-**M1 (governance bootstrap) COMPLETE.** All M1 acceptance criteria satisfied:
-- M1-AC-1 through M1-AC-3: Platform gates configured and verified
-- M1-AC-4 through M1-AC-11: All deliverables created and verified
-- GBE-001 closed
+**M1 (governance bootstrap) COMPLETE.** All M1 acceptance criteria satisfied.
+GBE-001 is CLOSED.
 
-Next milestone: M2 (characterization port).
+**M2 (characterization port) IN PROGRESS.** 6 merge-gate functions ported byte-identically from source `87d27d1`. 57 golden vectors pass against ported functions. 63 tests pass. Branch `m2-characterization-port` active. PR pending independent CLEAN review and gate-enforced merge.
+- M2-AC-1: SATISFIED
+- M2-AC-2: SATISFIED (57/57 vectors)
+- M2-AC-3: SATISFIED (63 assertions)
+- M2-AC-4 through M2-AC-6: SATISFIED
+- M2-AC-7: PENDING (mutation demonstration)
+- M2-AC-8 through M2-AC-10: PENDING
+
+Next milestone: M3 (corrections C1–C12) or M2 completion.
 
 ## Register schema
 

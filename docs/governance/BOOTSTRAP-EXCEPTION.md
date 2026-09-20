@@ -179,3 +179,29 @@ different project.
 
 All register entries carry `names_as_not_gate_verified: true` for commits before
 the first gate-verified merge.
+
+## M2 Bootstrap (2026-09-20)
+
+`GBE-001` is CLOSED. The narrow bootstrap exception that allowed PR #1 to merge
+has served its purpose. The six merge-gate functions have been ported byte-identically
+from source `87d27d1f2f94a4fa64b0b6e789b1d1d99d1dc27a`.
+
+### M2 PR requirements (mandatory)
+
+1. **Isolated branch**: `m2-characterization-port` created.
+2. **Byte-identical verification**: All six function bodies verified against source via SHA256.
+3. **Golden vectors**: All 57 vectors pass against ported functions (M2-AC-2).
+4. **Independent CLEAN review**: Required before merge. Review must return
+   `APPROVED` with `clean: true` and `zeroUnresolvedFindings`.
+5. **Merge gate enforcement**: `evaluateMergeAllowed` must return `allowed: true`
+   before any commit reaches `main`. The bootstrap exception from M1 does NOT
+   apply to M2.
+6. **Mutation demonstration (M2-AC-7)**: Invert one condition in `evaluateMergeAllowed`;
+   golden suite must turn red. Revert and record.
+
+### What must not happen
+
+- The M1 bootstrap exception does NOT apply to M2 PRs.
+- No evaluation of `evaluateMergeAllowed` before it exists (it now exists in `core/`).
+- No weakening of the permanent merge contract.
+- No modifications to RecompraCRM.
