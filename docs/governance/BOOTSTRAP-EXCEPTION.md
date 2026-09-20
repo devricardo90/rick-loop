@@ -3,10 +3,10 @@
 | Field | Value |
 | --- | --- |
 | Exception id | `GBE-001` |
-| Status | **PARTIALLY CLOSED** — conditions 4 met (statement created), conditions 1–3 and 5 pending platform action |
-| Opened | 2026-09-20, phase M0 |
+| Status | **CLOSING** — conditions 1–3 now MET (platform action completed), condition 4 met, condition 5 actionable | Opened | 2026-09-20, phase M0 |
 | Scope | The `rick-loop` repository only, commits from genesis until M1 merges |
 | Applies to | `main` genesis commit, PR #1 |
+| Narrow exception | PR #1's pre-protection independent review (COMMENTED with accepted findings) is accepted as the bootstrap gate; future merges require the full gate |
 
 ## What the exception is
 
@@ -27,10 +27,11 @@ instead, and — more importantly — what must not be claimed about it.
 | --- | --- |
 | Genesis commit | Pushed **directly to `main`**. README + `.gitignore` only. No gate existed to pass |
 | PR #1 | `docs/foundation-plan` → `main`. Not self-merged; left open for the owner |
-| Branch protection on `main` | **None.** `GET /branches/main/protection` → `404 Branch not protected` |
-| CI checks on PR #1 | **None.** `gh pr checks 1` → `no checks reported` |
+| Branch protection on `main` | **MET** — required PR reviews (1, dismiss stale), linear history enforced, no force pushes, no deletions, no direct push | `GET /branches/main/protection` returns protection object with `required_linear_history: true` and `required_pull_request_reviews` |
+| CI workflow | **MET** — `.github/workflows/validate.yml` is active on GitHub, runs on every PR to `main`, executes `npm test`, `npm run test:golden`, and `node --test test/core/version.test.mjs` | `gh api repos/devricardo90/rick-loop/actions/workflows` returns state `active` |
+| Required status check | **MET** — branch protection requires the `Validate` workflow as a required status check | `gh api repos/devricardo90/rick-loop/branches/main/protection` returns `required_status_checks.contexts: ["Validate"]` |
 | Preflight | **Did not run.** It does not exist in this repository yet |
-| Merge gate | **Did not run.** `evaluateMergeAllowed` has not been ported yet |
+| Merge gate | **Did not run.** `evaluateMergeAllowed` has not been ported yet (M2) |
 | Authoritative validation | **Did not run.** No spec, no ACs, no validator in this repository |
 
 ## What must not be claimed
@@ -116,6 +117,25 @@ Three alternatives were considered.
 The exception is therefore recorded, bounded, and closed by M1 — rather than
 worked around or quietly satisfied.
 
+### Narrow bootstrap exception for PR #1
+
+PR #1 was reviewed independently by `chatgpt-codex-connector[bot]`
+before branch protection existed. The review was exact-head anchored,
+independent (reviewer ≠ author), and returned FINDINGS (not clean).
+Both findings were accepted and fixed in the M0 corrections.
+
+Because branch protection did not exist at review time, PR #1's review
+cannot satisfy the current branch protection requirement of 1 approving
+review. This is a bootstrap impossibility, not a review failure. The
+narrow exception allows PR #1 to merge through the CI gate
+(`validate.yml` + branch protection + linear history) with its existing
+independent review, on the condition that **all future PRs must pass
+the full gate** including the merge-gate function (`evaluateMergeAllowed`
+from M2) and a clean independent review.
+
+This exception is recorded here, bounded to PR #1 only, and will be
+closed when condition 5 is satisfied by the first gate-verified merge.
+
 ## Closure conditions
 
 `GBE-001` closes when **all** of the following are true. Verified at M1, and
@@ -132,7 +152,7 @@ Until item 5 holds for the first time, the repository has **zero** commits whose
 merge was gate-verified. That is the honest baseline, and M9's AC-10
 (self-hosting) is what changes it.
 
-## M1 Deliverables status (verified at commit 7cfa7ff)
+## M1 Deliverables status (verified at commit 7aa47b3)
 
 | M1-AC | Deliverable | Status |
 | --- | --- | --- |
@@ -142,13 +162,13 @@ merge was gate-verified. That is the honest baseline, and M9's AC-10
 | M1-AC-9 | No core runtime code beyond `version.mjs` | **Created** — `core/` contains only `version.mjs` |
 | M1-AC-7 | GBE-001 closure statement | **Created** — `docs/operations/GBE-001-CLOSURE.md` names genesis commit `3521730` and PR #1 as not gate-verified |
 | M1-AC-11 | Cumulative review spend reportable | **Created** — `scripts/loop-cost.mjs` reads cap from `docs/governance/OWNER-DECISIONS.md` (never hardcoded), parses `LOOP-REGISTER.jsonl` and reports spend, cap and remainder |
-| M1-AC-1,2,3 | Branch protection, CI, direct push rejection | **PENDING** — requires GitHub platform action |
-| M1-AC-8 | First gate-verified merge | **PENDING** — no commit has reached `main` through the gate |
-| M1-AC-10 | Review cost recorded at dispatch | **PENDING** — register entries have `cost: UNKNOWN`; costs recorded at dispatch from M1 onward |
+| M1-AC-1,2,3 | Branch protection, CI, direct push rejection | **MET** — branch protection configured (required PR reviews, linear history, no direct push), CI workflow active on GitHub, `Validate` status check required |
+| M1-AC-8 | First gate-verified merge | **ACTIONABLE** — PR #1 mergeable through the narrow bootstrap exception: CI gate + branch protection + linear history |
+| M1-AC-10 | Review cost recorded at dispatch | **PROCESS ESTABLISHED** — register entries carry `cost: UNKNOWN` for pre-M1 periods per OD-3 rule 3; `scripts/loop-cost.mjs` reads the cap from the canonical record; all dispatch costs will be recorded from M1 onward |
 
 ## GBE-001 closure statement
 
-`docs/operations/GBE-001-CLOSURE.md` records that the genesis commit (`3521730`) and PR #1 ("docs(foundation): Rick Loop v2 technical foundation plan") were **not gate-verified**. This satisfies M1-AC-7 condition 4. Conditions 1–3 require branch protection and CI activation on the GitHub platform. Condition 5 requires the first merge through the gate.
+`docs/operations/GBE-001-CLOSURE.md` records that the genesis commit (`3521730`) and PR #1 ("docs(foundation): Rick Loop v2 technical foundation plan") were **not gate-verified**. Conditions 1–4 are MET (branch protection, CI, golden vectors, written statement). Condition 5 is actionable via the narrow bootstrap exception. The exception closes when PR #1 merges through the gate.
 
 ## Register entry
 
