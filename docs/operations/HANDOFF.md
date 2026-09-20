@@ -2,24 +2,32 @@
 
 ## Current state
 
-This repository is in M1 (governance bootstrap). All 8 M0 artifacts exist and are committed.
+**M1 (governance bootstrap) COMPLETE.** All M1 acceptance criteria satisfied.
+GBE-001 is CLOSED. The first gate-verified merge (`f76cc75`) occurred on 2026-09-20.
+
+## M1 acceptance criteria matrix
+
+| AC | Status | Evidence |
+| --- | --- | --- |
+| M1-AC-1 | MET | Branch protection on `main`: PR required, linear history, no direct push |
+| M1-AC-2 | MET | `validate.yml` active on GitHub, runs on every PR to `main` |
+| M1-AC-3 | MET | Direct push to `main` rejected by branch protection |
+| M1-AC-4 | MET | `package.json` with zero runtime dependencies |
+| M1-AC-5 | MET | `core/version.mjs` single version declaration (AC-9) |
+| M1-AC-6 | MET | Golden vectors enforced in CI via `test:golden` |
+| M1-AC-7 | MET | GBE-001 closure statement created |
+| M1-AC-8 | MET | First gate-verified merge: `f76cc75` |
+| M1-AC-9 | MET | `core/` contains only `version.mjs` |
+| M1-AC-10 | PROCESS ESTABLISHED | Register entries carry `cost: UNKNOWN` for pre-M1; dispatch costs recorded from M1 |
+| M1-AC-11 | MET | `npm run loop:cost` reads cap from `OWNER-DECISIONS.md`, never hardcoded |
 
 ## Open items
 
-- M1-AC-1: Branch protection on `main` must be enabled (platform action)
-- M1-AC-2: CI workflow must be enabled on GitHub (platform action)
-- M1-AC-3: Direct push to `main` must be rejected (platform action)
-- M1-AC-8: First gate-verified merge to be recorded after M1 completes
-- M1-AC-10: Review cost recording at dispatch from M1 onward
-
-## Completed
-
-- M1-AC-4: `package.json` with zero runtime dependencies
-- M1-AC-5: `core/version.mjs` — single version declaration
-- M1-AC-6: Golden vectors enforced in CI
-- M1-AC-7: GBE-001 closure statement
-- M1-AC-9: `core/` contains only `version.mjs`
-- M1-AC-11: Cumulative spend reportable via `npm run loop:cost` — cap read from `docs/governance/OWNER-DECISIONS.md`, not hardcoded
+- M2 (characterization port): port 8 core modules, 378 assertions, 57 golden vectors
+- M3+ corrections (C1–C12)
+- No LoopLab (M9 or later)
+- No code ported until M2
+- RecompraCRM untouched (read-only)
 
 ## Not done
 

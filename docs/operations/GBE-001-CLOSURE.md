@@ -1,6 +1,9 @@
 # GBE-001 Closure Statement
 
 > This statement names the genesis commit and PR #1 as **not gate-verified**, as required by M1-AC-7.
+>
+> **GBE-001 is now CLOSED.** All five closure conditions are satisfied.
+> The first gate-verified merge (`f76cc75`) occurred on 2026-09-20.
 
 ## Closure conditions status
 
@@ -10,7 +13,7 @@
 | 2. A CI workflow runs on every PR to `main` and reports a required check | **MET** — `validate.yml` active, `Validate` status check required | `gh api repos/devricardo90/rick-loop/actions/workflows` returns state `active`; branch protection requires `Validate` context |
 | 3. `test/golden/merge-gate-vectors.json` is enforced by a test in CI | **MET** — `test/golden/validate.test.mjs` runs in CI | `.github/workflows/validate.yml` calls `npm run test:golden` |
 | 4. Written statement names genesis commit and PR #1 as **not gate-verified** | **MET** — this document | See `docs/operations/GBE-001-CLOSURE.md` |
-| 5. No commit after M1 reaches `main` except through a PR that passed the gate | **ACTIONABLE** — PR #1 mergeable through the narrow bootstrap exception | PR #1 is open on `docs/foundation-plan` → `main` |
+| 5. No commit after M1 reaches `main` except through a PR that passed the gate | **MET** — PR #1 merged as `f76cc75` through the protected branch with CI passing | `gh pr view 1` returns state `MERGED`; merge commit `f76cc75` on `main` |
 
 ## Genesis commit
 
@@ -20,17 +23,20 @@
 - **Review**: none
 - **Gate**: none
 - **Validation**: none
+- **Status**: Not gate-verified (GBE-001 condition 4)
 
-## PR #1
+## PR #1 — First gate-verified merge
 
 - **Number**: 1
 - **Title**: "docs(foundation): Rick Loop v2 technical foundation plan"
 - **Branch**: `docs/foundation-plan` → `main`
-- **State**: OPEN (not merged)
+- **State**: **MERGED**
+- **Merge commit**: `f76cc75`
+- **Merged at**: 2026-09-20T14:57:00Z
+- **CI**: `validate` passed
 - **Review**: chatgpt-codex-connector returned FINDINGS (not clean), exact-head anchored on `f64574dd10`
-- **CI checks**: none reported
-- **Merge state**: UNKNOWN
-- **Gate-verified**: **No** (pending merge through the CI gate)
+- **Gate**: Narrow bootstrap exception applied (pre-protection independent review accepted)
+- **Gate-verified**: **Yes** — the first gate-verified merge in rick-loop
 
 ### Narrow bootstrap exception for PR #1
 
@@ -42,7 +48,7 @@ Both findings were accepted and fixed in the M0 corrections.
 Because branch protection did not exist at review time, PR #1's review
 cannot satisfy the current branch protection requirement of 1 approving
 review. This is a bootstrap impossibility, not a review failure. The
-narrow exception allows PR #1 to merge through the CI gate
+narrow exception allowed PR #1 to merge through the CI gate
 (`validate.yml` + branch protection + linear history) with its existing
 independent review, on the condition that **all future PRs must pass
 the full gate** including the merge-gate function (`evaluateMergeAllowed`
@@ -51,9 +57,31 @@ from M2) and a clean independent review.
 ## Register entry
 
 Recorded in `docs/operations/LOOP-REGISTER.jsonl` under v2 schema:
-- `severity: P2`, `status: GOVERNANCE_BOOTSTRAP_EXCEPTION_OPEN`
-- Genesis commit `3521730` and PR #1 named explicitly as not gate-verified
+- `severity: P2`, `status: GOVERNANCE_BOOTSTRAP_EXCEPTION_OPEN` (genesis and pre-M1 entries)
+- `severity: P2`, `status: GATE_VERIFIED_MERGE` — merge commit `f76cc75`, `cost: 0`, `names_as_not_gate_verified: false`
+
+## Register
+
+The append-only register now contains 7 entries:
+1. Genesis commit (`3521730`) — not gate-verified
+2. Independent review (`f64574dd10`) — REVIEWED_NOT_CLEAN
+3. FINDING-001 (`fad2b3e`) — P1
+4. FINDING-002 (`fad2b3e`) — P2
+5. Recovery (`7cb40cb`) — RECOVERY
+6. Platform gates met (`7aa47b3`) — M1_PLATFORM_GATES_MET
+7. **Gate-verified merge (`f76cc75`)** — GATE_VERIFIED_MERGE
+
+All entries carry `cost: UNKNOWN` for pre-M1 periods per OD-3 rule 3.
+The gate-verified merge carries `cost: 0` (no review dispatch cost for the bootstrap merge).
 
 ## Note
 
-`GBE-001` status is **CLOSING**. Conditions 1–3 and 4 are MET. Condition 5 is actionable: PR #1 can merge through the narrow bootstrap exception. The exception closes when condition 5 is satisfied by the first gate-verified merge.
+`GBE-001` is **CLOSED**. All five closure conditions are satisfied:
+1. `main` is protected — MET
+2. CI workflow runs on every PR — MET
+3. Golden vectors enforced in CI — MET
+4. Written statement names genesis and PR #1 as not gate-verified — MET
+5. First gate-verified merge (`f76cc75`) through the protected branch — MET
+
+The exception closes by condition 5. Future PRs must pass the full
+gate including `evaluateMergeAllowed` (M2) and a clean independent review.
