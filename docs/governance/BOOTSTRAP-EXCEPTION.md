@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | Exception id | `GBE-001` |
-| Status | **OPEN** — closes when M1 completes |
+| Status | **PARTIALLY CLOSED** — conditions 4 met (statement created), conditions 1–3 and 5 pending platform action |
 | Opened | 2026-09-20, phase M0 |
 | Scope | The `rick-loop` repository only, commits from genesis until M1 merges |
 | Applies to | `main` genesis commit, PR #1 |
@@ -132,9 +132,30 @@ Until item 5 holds for the first time, the repository has **zero** commits whose
 merge was gate-verified. That is the honest baseline, and M9's AC-10
 (self-hosting) is what changes it.
 
+## M1 Deliverables status (verified at commit 7cb40cb)
+
+| M1-AC | Deliverable | Status |
+| --- | --- | --- |
+| M1-AC-4 | `package.json` with zero runtime dependencies | **Created** — `node:test` only, scripts `test` and `test:golden` |
+| M1-AC-5 | `core/version.mjs` — single version declaration | **Created** — `core/` contains only `version.mjs` |
+| M1-AC-6 | Golden vectors enforced in CI | **Created** — `.github/workflows/validate.yml` calls `npm run test:golden`; `test/golden/validate.test.mjs` validates vector structure |
+| M1-AC-9 | No core runtime code beyond `version.mjs` | **Created** — `core/` contains only `version.mjs` |
+| M1-AC-7 | GBE-001 closure statement | **Created** — `docs/operations/GBE-001-CLOSURE.md` names genesis commit `3521730` and PR #1 as not gate-verified |
+| M1-AC-11 | Cumulative review spend reportable | **Created** — `scripts/loop-cost.mjs` reads `LOOP-REGISTER.jsonl` and reports against OD-3 cap |
+| M1-AC-1,2,3 | Branch protection, CI, direct push rejection | **PENDING** — requires GitHub platform action |
+| M1-AC-8 | First gate-verified merge | **PENDING** — no commit has reached `main` through the gate |
+| M1-AC-10 | Review cost recorded at dispatch | **PENDING** — register entries have `cost: UNKNOWN`; costs recorded at dispatch from M1 onward |
+
+## GBE-001 closure statement
+
+`docs/operations/GBE-001-CLOSURE.md` records that the genesis commit (`3521730`) and PR #1 ("docs(foundation): Rick Loop v2 technical foundation plan") were **not gate-verified**. This satisfies M1-AC-7 condition 4. Conditions 1–3 require branch protection and CI activation on the GitHub platform. Condition 5 requires the first merge through the gate.
+
 ## Register entry
 
 Recorded in this repository's `LOOP-REGISTER.jsonl` at M1, under the v2 schema,
 with `severity: P2` and `status: GOVERNANCE_BOOTSTRAP_EXCEPTION_OPEN`. It is not
 back-dated into the source register, which is append-only and belongs to a
 different project.
+
+All register entries carry `names_as_not_gate_verified: true` for commits before
+the first gate-verified merge.

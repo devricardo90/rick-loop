@@ -1,0 +1,16 @@
+{
+  "name": "rick-loop",
+  "version": "RICK_LOOP_V2_0_0",
+  "description": "Deterministic, fail-closed gate around autonomous roadmap execution",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/core/*.test.mjs",
+    "test:golden": "node --test test/golden/*.test.mjs",
+    "loop:cost": "node scripts/loop-cost.mjs"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
